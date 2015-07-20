@@ -29,6 +29,6 @@ SCHEDULER.every '1d', :first_in => 0 do |job|
     charmArray.push({label: charmTitle, value: charmDeploys.to_i})
   end
 
-
+  charmArray = charmArray.sort_by {|hsh| hsh[:value]}.reverse
   send_event('top_charms', { items: charmArray })
 end
