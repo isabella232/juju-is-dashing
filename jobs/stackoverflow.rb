@@ -46,6 +46,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     end
 
     send_event('so_questions', { items: so_questions.slice(0, max_length) })
+    send_event('so_question_count', { current: so_questions.count})
 
   end # if
 
