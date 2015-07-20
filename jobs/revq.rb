@@ -1,61 +1,41 @@
-require 'mechanize'
+require 'httparty'
+require 'json'
+require 'uri'
+
+# The JUJU Ecosystem Review Queue lives at http://review.juju.solutions
+# This class represents a web agent that polls the REVQ every 5 minutes
+# and returns the Json response from the front page, or the 'active queue'
+#
+# Currently there are 2 types of classified items that require attention:
+# - New Charms or "incoming"
+# - Updated Charms or "updates"
 
 class Revq
 
-    attr_accessor :issue_count
-    attr_accessor :issue_types
-    attr_accessor :reqs
+    attr_accessor :updates
+    attr_accessor :incoming
 
     def initialize()
-        @issue_count = 0
-        @issue_types = Hash.new
-        @reqs = Hash.new
+        @issues = Hash.new
 
-        agent = Mechanize.new
-        page = agent.get('http://manage.jujucharms.com/tools/review-queue')
+        json = HTTParty.get('http://review.juju.solutions').body
+        response = JSON.parse(json)
 
-        @issue_count = page.search('table').search('tr').count()
+        @updates = response['reviews']
+        @incoming = response['incoming']
 
-        page.search('table').search('tr').each do |row|
-            begin
-                label = row.search('td').last().text
-                if @reqs.length < 5 
-                    summary = row.search('td')[3].text.chomp()
-                    top_five(summary)
-                end
-            rescue
-                next
-            end
-            if @issue_types.has_key?("#{label}")  
-                @issue_types["#{label}"][:value] += 1
-            else  
-                @issue_types["#{label}"] = { label: label, value: 1}
-            end  
-        end
     end
 
-    def top_five(summary)
-        return if summary.empty?
-        i = @reqs.length
-        @reqs[i] = { label: summary, value: nil}
-    end
 
-    def truncate_words(s, opts = {})
-        opts = {:words => 12}.merge(opts)
-        if opts[:sentences]
-          return s.split(/\.(\s|$)+/)[0, opts[:sentences]].map{|s| s.strip}.join('. ') + '.'
-        end
-        a = s.split(/\s/) # or /[ ]+/ to only split on spaces
-        n = opts[:words]
-        a[0...n].join(' ') + (a.size > n ? '...' : '')
-    end
-
-end  
+end
 
 
-SCHEDULER.every '15m', :first_in => 0 do
-  r = Revq.new()
-  send_event('review', { items: r.issue_types.values })
-  send_event('revqtop5', { items: r.reqs.values })
+
+SCHEDULER.every '1m', :first_in => 0 do
+    r = Revq.new()
+    # Send the data for the gauge widgets
+    send_event('updates_count', {value: r.updates.count})
+    send_event('incoming_count', {value: r.incoming.count})
+    send_event('updates_list', {items: r.updates})
 
 end

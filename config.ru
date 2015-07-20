@@ -2,8 +2,7 @@ require 'dashing'
 
 configure do
   set :auth_token, ENV['AUTH_TOKEN']
-
-  set :default_dashboard, 'solutions'
+  set :default_dashboard, 'wide'
 
   helpers do
     def protected!

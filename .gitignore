@@ -1,2 +1,5 @@
 *DS_STORE
 history.yml
+.env
+history.yaml
+.bundle

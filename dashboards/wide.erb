@@ -1,0 +1,90 @@
+<script type='text/javascript'>
+$(function() {
+  // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+});
+</script>
+
+
+<% content_for :title do %>Juju Solutions<% end %>
+
+<div class="gridster">
+  <ul>
+
+    <!-- Row 1 -->
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-view="PullRequests" data-id="charm_prs" data-title"Github Charm PR"></div>
+      <i class="icon-github icon-background"></i>
+    </li>
+
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="updates_count" data-view="Meter" data-moreinfo="Updated Charms pending review" data-title="Updated Charms" data-min="0" data-max="50"></div>
+    </li>
+
+    <li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+      <div data-id="incoming_count" data-view="Meter" data-moreinfo="New Charms pending review" data-title="New Charms" data-min="0" data-max="50"></div>
+    </li>
+
+
+    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+      <div data-id="docker_hub_stars" data-view="List" data-unordered="true" data-title="Docker stars" style="background-color: #9b59b6"></div>
+      <i class="icon-star icon-background"></i>
+    </li>
+
+
+
+    <!-- Row 2 -->
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="twitter_mentions" data-view="Comments" data-title="#JUJU Tweets" style="background-color: #71388a"></div>
+    </li>
+
+    
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-id="ml_highscore" data-view="List" data-unordered="true" data-title="Mailing List Leaders" style="background-color: #e67e22" data-moreinfo=""></div>
+      <i class="icon-mail icon-background"></i>
+    </li>
+
+
+
+   <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
+      <div data-id="top_charms" data-view="List" data-unordered="false" data-title="Top Charm Deploys" style="background-color: #9b59b6"></div>
+      <i class="icon-download icon-background"></i>
+    </li>
+
+
+
+    <li data-row="2" data-col="5" data-sizex="1" data-sizey="1" >
+      <div data-id="docker_hub_pulls" data-view="List" data-unordered="true" data-title="Docker pulls" style="background-color: #9b59b6"></div>
+      <i class="icon-download icon-background"></i>
+    </li>
+
+
+
+    <!-- Row 3 -->
+    <li data-row="3" data-col="1" data-sizex="2" data-sizey="2">
+      <div data-id="github_feed" data-view="GithubFeed" data-title="Github News Feed"></div>
+    </li>
+
+
+    <li data-row="3" data-col="3" data-sizex="3" data-sizey="2">
+        <div data-id="updates_list" data-view="Revq" data-title="Updated Charms - Pending" style="background-color:#411934"></div>
+    </li>
+
+
+    <!-- Row 4 -->
+
+    <!-- Row 5 -->
+ 
+
+    <li  data-row="5" data-col="1" data-sizex="5" data-sizey="2" >
+      <div data-id="so_questions" data-view="List" data-unordered="true" data-title="StackOverflow Questions" style="background-color: #e67e22" data-moreinfo=""></div>
+      <i class="icon-stackexchange icon-background"></i>
+    </li>
+
+  </ul>
+  <center><div style="font-size: 12px" onclick="location.href='https://github.com/juju-solutions/juju-is-dashing';">Made with <i class="icon icon-heart"></i> on Github</div></center>
+</div>
